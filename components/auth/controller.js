@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
 
-export const generateRefreshToken = (req, res) => {
-  const { username, email } = req.body;
-  let token = jwt.sign({ email, username }, "secret", { expiresIn: "7d" });
-  res.send(token);
+export const generateRefreshToken = (payload) => {
+  let token = jwt.sign(payload, "secret", { expiresIn: "7d" });
+  return token;
 };
 
 const verifyToken = (token) => {

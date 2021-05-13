@@ -1,4 +1,5 @@
 import User from "./model.js";
+import { generateRefreshToken } from "../auth/controller.js";
 
 export const addUser = async (req, res) => {
   try {
@@ -27,8 +28,10 @@ export const signIn = async (req, res) => {
     if (data) {
       const { password: storedPassword } = data;
       if (storedPassword === password) {
+        const { pass, ...payload } = data;
+        const refreshToken = await generateRefreshToken(payload);
         return res.send({
-          data: data,
+          data: refreshToken,
           status: "success",
         });
       } else {
